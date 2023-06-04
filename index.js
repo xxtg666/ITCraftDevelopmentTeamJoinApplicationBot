@@ -44,7 +44,7 @@ module.exports = (app) => {
   
   app.log.info("Yay, the app was loaded!");
   
-  app.on("issues.opened", async (context) => {
+  app.on("issues.opened", async (context) => { // 新加入申请
     var issue = context.payload.issue
     app.log.info("issues.opened")
     if(!checkLabel(issue,"· Join-application")){return}
@@ -55,7 +55,7 @@ module.exports = (app) => {
     return context.octokit.issues.createComment(issueComment);
   });
 
-  app.on("issues.labeled", async(context) => {
+  app.on("issues.labeled", async(context) => { // 拒绝/通过申请
     var issue = context.payload.issue
     app.log.info("issues.labeled")
     if(!checkLabel(issue,"· Join-application")){return}
@@ -75,8 +75,16 @@ module.exports = (app) => {
       context.octokit.issues.update(context.issue({state: "closed",state_reason: "completed"}))
       return context.octokit.issues.createComment(issueComment);
     }
-
   });
+
+  app.on("issue_comment.created", async(context) => { // 在存储数据issue中回复自动隐藏
+    var issue = context.payload.issue
+    if(issue.id != 14){return}
+    var comment = context.payload.comment
+    if(comment.user.login != "itcdt-join-application-bot"){
+      context.octokit.issues.deleteComment(context.issue({comment_id: comment.id}))
+    }
+  })
 
   // For more information on building apps:
   // https://probot.github.io/docs/
