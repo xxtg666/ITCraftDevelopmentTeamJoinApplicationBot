@@ -142,14 +142,12 @@ module.exports = (app) => {
   app.on("issue_comment.created", async(context) => { // 在存储数据issue中回复自动删除
     var issue = context.payload.issue
     app.log.info("issue_comment.created")
-    app.log.info(issue.url)
     if(!issue.url.includes("ITCraftDevelopmentTeam/Forum/issues/14")){return}
     var comment = context.payload.comment
-    app.log.info(comment.user.login)
     if(comment.user.login != "itcdt-join-application-bot"){
-      app.log.info(context.octokit.issues.deleteComment({owner: "ITCraftDevelopmentTeam",repo: "Forum",comment_id: comment.id}))
+      return context.octokit.issues.deleteComment({owner: "ITCraftDevelopmentTeam",repo: "Forum",comment_id: comment.id})
     }
-    return
+    
   })
 
   // For more information on building apps:
