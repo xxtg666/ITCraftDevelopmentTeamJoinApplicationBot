@@ -147,7 +147,6 @@ module.exports = (app) => {
     if(comment.user.login != "itcdt-join-application-bot"){
       return context.octokit.issues.deleteComment({owner: "ITCraftDevelopmentTeam",repo: "Forum",comment_id: comment.id})
     }
-    
   })
 
   // For more information on building apps:
