@@ -143,8 +143,9 @@ module.exports = (app) => {
     var issue = context.payload.issue
     app.log.info("issue_comment.created")
     app.log.info(issue.url)
-    if(issue.url != "https://github.com/ITCraftDevelopmentTeam/Forum/issues/14"){return}
+    if(issue.url.includes("ITCraftDevelopmentTeam/Forum/issues/14")){return}
     var comment = context.payload.comment
+    app.log.info(comment.user.login)
     if(comment.user.login != "itcdt-join-application-bot"){
       app.log.info(context.octokit.issues.deleteComment({owner: "ITCraftDevelopmentTeam",repo: "Forum",comment_id: comment.id}))
     }
