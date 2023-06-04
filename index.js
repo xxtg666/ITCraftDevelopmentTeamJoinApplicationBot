@@ -141,6 +141,7 @@ module.exports = (app) => {
 
   app.on("issue_comment.created", async(context) => { // 在存储数据issue中回复自动删除
     var issue = context.payload.issue
+    app.log.info("issue_comment.created")
     if(issue.id != 14){return}
     var comment = context.payload.comment
     if(comment.user.login != "itcdt-join-application-bot"){
