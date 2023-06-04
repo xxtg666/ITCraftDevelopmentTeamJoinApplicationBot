@@ -142,10 +142,10 @@ module.exports = (app) => {
   app.on("issue_comment.created", async(context) => { // 在存储数据issue中回复自动删除
     var issue = context.payload.issue
     app.log.info("issue_comment.created")
-    if(issue.id != 14){return}
+    if(issue.url != "https://github.com/ITCraftDevelopmentTeam/Forum/issues/14"){return}
     var comment = context.payload.comment
     if(comment.user.login != "itcdt-join-application-bot"){
-      context.octokit.issues.deleteComment(context.issue({comment_id: comment.id}))
+      context.octokit.issues.deleteComment({owner: "ITCraftDevelopmentTeam",repo: "Forum",comment_id: comment.id})
     }
   })
 
